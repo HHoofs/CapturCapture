@@ -53,32 +53,33 @@ def check_if_car(preds):
     for _, label, prop in preds:
         if any(label == lab for lab in LABEL):
             if prop > .1:
-                print(label)
                 return True
 
 
-# def if_car_save(img, preds):
-#     """"""
-#     if check_if_car(preds):
-#         return True
-
-
 def main():
+    """
+    loop over images in screens folder, if car move to dropbox else remove
+
+    :return:
+    """
     while True:
+        # get all screengrabs
         all_pics = os.listdir("screens")
-        # all_pics = ['screens/' + pic for pic in all_pics]
-        print(all_pics)
+        # loop over all pics
         for pic in all_pics:
             print(pic)
+            # open image from the screens directory
             with Image.open(os.path.join('screens', pic)) as img_resized:
+                # preprocess image
                 img_preprocces = preprocess(img_resized)
+                # predict classes in image
                 img_predict = predict_vgg_16(img_preprocces)
+                # if car move to dropbox
                 if check_if_car(img_predict):
-                    print('hoi')
-                    # os.rename(os.path.join('screens', pic), os.path.join('/Users/HuCa/Dropbox/cars', pic))
+                    os.rename(os.path.join('screens', pic), os.path.join('/Users/HuCa/Dropbox/cars', pic))
+                # else remove image
                 else:
-                    print('hoi')
-                    # os.remove(os.path.join('screens', pic))
+                    os.remove(os.path.join('screens', pic))
 
 
 if __name__ == '__main__':
