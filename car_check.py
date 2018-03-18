@@ -8,7 +8,7 @@ import os
 
 LABEL = ['racer', 'sports_car', 'cab', 'limousine', 'minivan', 'car_wheel', 'tow_truck', 'car_mirror',
          'pickup', 'trailer_truck', 'jeep', 'convertible', 'minibus', 'school_bus', 'ambulance',
-         'passenger_car']
+         'passenger_car', 'streetcar']
 
 model = VGG16(weights='imagenet')
 

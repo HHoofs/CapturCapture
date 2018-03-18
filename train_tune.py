@@ -5,6 +5,8 @@ from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
 
+# https://github.com/aleksas/keras-fine-tune-inception/blob/master/fine_tune_inceptionv3.py
+
 img_width, img_height = 299, 299
 batch_size = 4
 
