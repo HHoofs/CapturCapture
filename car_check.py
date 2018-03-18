@@ -14,9 +14,9 @@ model = VGG16(weights='imagenet')
 
 
 def preprocess(img):
-    x = image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    return preprocess_input(x)
+     x = image.img_to_array(img)
+     x = np.expand_dims(x, axis=0)
+     return preprocess_input(x)
 
 
 def predict_vgg_16(x):
@@ -48,7 +48,7 @@ def main():
                 img_preprocces = preprocess(img_resized)
                 img_predict = predict_vgg_16(img_preprocces)
                 if if_car_save(img_resized, img_predict):
-                    os.rename(os.path.join('screens', pic), os.path.join('cars', pic))
+                    os.rename(os.path.join('screens', pic), os.path.join('/Users/HuCa/Dropbox/cars', pic))
                 else:
                     os.remove(os.path.join('screens', pic))
 

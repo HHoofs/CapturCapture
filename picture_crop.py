@@ -11,6 +11,7 @@ def aim():
 
 def grap_screen():
     im = ImageGrab.grab(bbox=(700,250,1200,750)) # X1,Y1,X2,Y2
+    im = im.convert("RGB")
     return im
 
 def resize_image(img):
@@ -39,4 +40,6 @@ def grapping(counter = 1):
 
 
 if __name__ == '__main__':
-    grapping(1001)
+    time.sleep(10)
+    grapping(12743)
+    # aim()
