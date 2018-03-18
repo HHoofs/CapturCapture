@@ -14,9 +14,10 @@ model = VGG16(weights='imagenet')
 
 
 def preprocess(img):
-     x = image.img_to_array(img)
-     x = np.expand_dims(x, axis=0)
-     return preprocess_input(x)
+    x = img.resize((224,224))
+    x = image.img_to_array(x)
+    x = np.expand_dims(x, axis=0)
+    return preprocess_input(x)
 
 
 def predict_vgg_16(x):
