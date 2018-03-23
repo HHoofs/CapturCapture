@@ -68,7 +68,7 @@ if __name__ == '__main__':
     category_dict = json_to_dict()
 
     #  annot8
-    classifications = classify_background(allImages, category_dict)
+    classifications = classify_background(allImages, category=category_dict)
     # save dict as json
     dict_to_json(classifications)
 

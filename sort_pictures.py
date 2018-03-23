@@ -11,9 +11,13 @@ def sort_to_directories():
     # loop of images and their labels
     for item, key in classifcation_dict.items():
         # check if image exists
-        if os.path.isfile(item):
-            # move image
-            os.rename(item, os.path.join(os.path.dirname(item), key, os.path.basename(item)))
+        if key is not None:
+            if os.path.isfile(item):
+                # move image
+                try:
+                    os.rename(item, os.path.join(os.path.dirname(item), key, os.path.basename(item)))
+                except:
+                    print(os.path.join(os.path.dirname(item), key, os.path.basename(item)))
 
 if __name__ == '__main__':
     sort_to_directories()

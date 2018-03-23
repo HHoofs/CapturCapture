@@ -82,5 +82,27 @@ def main():
                     os.remove(os.path.join('screens', pic))
 
 
+def main_scraper():
+    all_pics = os.listdir("data")
+    # loop over all pics
+    for pic in all_pics:
+        print(pic)
+        # open image from the screens directory
+        with Image.open(os.path.join('data', pic)) as img_resized:
+            # preprocess image
+            img_preprocces = preprocess(img_resized)
+            # predict classes in image
+            img_predict = predict_vgg_16(img_preprocces)
+            # if car move to dropbox
+            if check_if_car(img_predict):
+                x = img_resized.resize((299,299))
+                x.save(os.path.join('C:\\Users\\huubh\\Dropbox\\autoscout\\2', pic))
+                os.remove(os.path.join('data', pic))
+            # else remove image
+            else:
+                os.remove(os.path.join('data', pic))
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    main_scraper()
