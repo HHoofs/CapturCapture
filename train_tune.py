@@ -9,7 +9,7 @@ from keras.callbacks import TensorBoard
 # https://github.com/aleksas/keras-fine-tune-inception/blob/master/fine_tune_inceptionv3.py
 
 img_width, img_height = 299, 299
-batch_size = 5
+batch_size = 8
 
 # create the base pre-trained model
 base_model = InceptionV3(weights='imagenet', include_top=False)
@@ -41,21 +41,21 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=False)
 
 train_generator = train_datagen.flow_from_directory(
-    'train/',
+    './PreTrain',
     target_size=(img_height, img_width),
     batch_size=batch_size,
     class_mode='categorical')
 
-val_datagen = ImageDataGenerator(
-    rescale=1. / 255, horizontal_flip=False)
+# val_datagen = ImageDataGenerator(
+#     rescale=1. / 255, horizontal_flip=False)
+#
+# val_generator = val_datagen.flow_from_directory(
+#     './PreTrain',
+#     target_size=(img_height, img_width),
+#     batch_size=batch_size,
+#     class_mode='categorical')
 
-val_generator = val_datagen.flow_from_directory(
-    'train/',
-    target_size=(img_height, img_width),
-    batch_size=batch_size,
-    class_mode='categorical')
-
-tb = TensorBoard(log_dir='./logs', write_graph=True, write_images=True)
+# tb = TensorBoard(log_dir='./logs', write_graph=True, write_images=True)
 
 # train the model on the new data for a few epochs
-model.fit_generator(train_generator, steps_per_epoch = (25) // batch_size, epochs=5, callbacks=[tb])
+model.fit_generator(train_generator, steps_per_epoch = (9472) // batch_size, epochs=10)
