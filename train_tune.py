@@ -148,6 +148,12 @@ if __name__ == '__main__':
 
     model = build_2step_model(top_model_weights_path='features/bottleneck_fc_inceptionv3_model.h5')
 
-    compile_and_train_model(model=model,
-                            train_dir='./FullTrain',
-                            train_samples=1408, epochs=10, batch_size=16)
+    model = compile_and_train_model(model=model,
+                                  train_dir='./PreTrain',
+                                  train_samples=1408, epochs=10, batch_size=16)
+
+    model = alternate_trainable_layers(model)
+
+    _ = compile_and_train_model(model=model,
+                                  train_dir='./FullTrain',
+                                  train_samples=1408, epochs=10, batch_size=16, compile=False)
