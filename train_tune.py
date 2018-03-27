@@ -78,15 +78,10 @@ def build_2step_model(top_model_weights_path):
     # add the model on top of the convolutional base
     model = Model(inputs=base_model.input, outputs=top_model(base_model.output))
 
-    for layer in model.layers[:249]:
-        layer.trainable = False
-    for layer in model.layers[249:]:
-        layer.trainable = True
-
     return model
 
 
-def compile_and_train_model(model, train_dir, train_samples, epochs, batch_size, compile=True):
+def compile_and_train_model(model, train_dir, train_samples, epochs, batch_size):
     """
     Train a Keras.model for a train and validation set and predict a set of images
 
@@ -99,10 +94,9 @@ def compile_and_train_model(model, train_dir, train_samples, epochs, batch_size,
 
     # compile the model with a SGD/momentum optimizer
     # and a very slow learning rate.
-    if compile:
-        model.compile(loss='binary_crossentropy',
-                      optimizer=optimizers.SGD(lr=1e-4, momentum=0.9),
-                      metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy',
+                  optimizer=optimizers.SGD(lr=1e-4, momentum=0.9),
+                  metrics=['accuracy'])
 
     # prepare data augmentation configuration
     train_datagen = ImageDataGenerator(rescale=1. / 255,
@@ -128,7 +122,7 @@ def compile_and_train_model(model, train_dir, train_samples, epochs, batch_size,
     return model
 
 
-def alternate_trainable_layers(model, from_layer=280):
+def alternate_trainable_layers(model, from_layer):
     for layer in model.layers[:from_layer]:
         layer.trainable = False
     for layer in model.layers[from_layer:]:
@@ -136,7 +130,7 @@ def alternate_trainable_layers(model, from_layer=280):
 
     return model
 
-    return model
+
 if __name__ == '__main__':
     save_bottlebeck_features(train_dir='./PreTrain',
                              train_features_dir='features/bottleneck_features_inceptionv3_train.npy',
@@ -148,12 +142,12 @@ if __name__ == '__main__':
 
     model = build_2step_model(top_model_weights_path='features/bottleneck_fc_inceptionv3_model.h5')
 
+    model = alternate_trainable_layers(model, from_layer=249)
     model = compile_and_train_model(model=model,
                                   train_dir='./PreTrain',
-                                  train_samples=1408, epochs=10, batch_size=16)
+                                  train_samples=9472, epochs=10, batch_size=16)
 
-    model = alternate_trainable_layers(model)
-
+    model = alternate_trainable_layers(model, from_layer=280)
     _ = compile_and_train_model(model=model,
                                   train_dir='./FullTrain',
-                                  train_samples=1408, epochs=10, batch_size=16, compile=False)
+                                  train_samples=1408, epochs=10, batch_size=16)
